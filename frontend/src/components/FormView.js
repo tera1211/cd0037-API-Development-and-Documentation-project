@@ -11,6 +11,7 @@ class FormView extends Component {
       difficulty: 1,
       category: 1,
       categories: {},
+      successMessage:null
     };
   }
 
@@ -48,6 +49,9 @@ class FormView extends Component {
       crossDomain: true,
       success: (result) => {
         document.getElementById('add-question-form').reset();
+        this.setState({
+          successMessage: 'New question has been successfully created',
+        });
         return;
       },
       error: (error) => {
@@ -65,21 +69,24 @@ class FormView extends Component {
     return (
       <div id='add-form'>
         <h2>Add a New Trivia Question</h2>
+        {this.state.successMessage && (
+          <p className='success-message'>{this.state.successMessage}</p>
+        )}
         <form
           className='form-view'
           id='add-question-form'
           onSubmit={this.submitQuestion}
         >
-          <label>
-            Question
-            <input type='text' name='question' onChange={this.handleChange} />
-          </label>
-          <label>
-            Answer
+          <div class="form-group">
+            <label for="question">Question</label>
+            <textarea rows="3" name='question' onChange={this.handleChange} />
+          </div>
+          <div class="form-group">
+            <label for="answer">Answer</label>
             <input type='text' name='answer' onChange={this.handleChange} />
-          </label>
-          <label>
-            Difficulty
+          </div>
+          <div class="form-group">
+            <label for="difficulty">Difficulty</label>
             <select name='difficulty' onChange={this.handleChange}>
               <option value='1'>1</option>
               <option value='2'>2</option>
@@ -87,9 +94,9 @@ class FormView extends Component {
               <option value='4'>4</option>
               <option value='5'>5</option>
             </select>
-          </label>
-          <label>
-            Category
+          </div>
+          <div class="form-group">
+            <label for="category">Category</label>
             <select name='category' onChange={this.handleChange}>
               {Object.keys(this.state.categories).map((id) => {
                 return (
@@ -99,7 +106,7 @@ class FormView extends Component {
                 );
               })}
             </select>
-          </label>
+          </div>
           <input type='submit' className='button' value='Submit' />
         </form>
       </div>

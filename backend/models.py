@@ -1,5 +1,5 @@
 import os
-from sqlalchemy import Column, String, Integer, create_engine
+from sqlalchemy import Column, String, Integer, create_engine, ForeignKey
 from flask_sqlalchemy import SQLAlchemy
 import json
 
@@ -17,7 +17,8 @@ def setup_db(app, database_path=database_path):
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     db.app = app
     db.init_app(app)
-    db.create_all()
+    with app.app_context():
+        db.create_all()
 
 """
 Question
@@ -29,7 +30,7 @@ class Question(db.Model):
     id = Column(Integer, primary_key=True)
     question = Column(String)
     answer = Column(String)
-    category = Column(String)
+    category = Column(Integer,ForeignKey('categories.id'))
     difficulty = Column(Integer)
 
     def __init__(self, question, answer, category, difficulty):
@@ -67,6 +68,7 @@ class Category(db.Model):
 
     id = Column(Integer, primary_key=True)
     type = Column(String)
+    questions = db.relationship('Question',backref='questions',lazy='joined', cascade='all,delete')
 
     def __init__(self, type):
         self.type = type

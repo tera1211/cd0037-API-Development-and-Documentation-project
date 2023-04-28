@@ -5,3 +5,27 @@
 #add-form {
   text-align: center;
 }
+
+
+.form-group{
+  display: flex;
+  margin: 5px 0;
+}
+.form-group label, input[type="text"], textarea{
+  display: block;
+}
+.form-group label{
+  flex-basis: 20%;
+}
+
+.form-group input[type="text"], textarea{
+  flex-basis: 80%;
+}
+
+.form-group input[type="text"], textarea, select{
+  padding: 5px;
+}
+
+.success-message{
+  color: lightseagreen;
+}
